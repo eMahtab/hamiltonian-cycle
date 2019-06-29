@@ -8,27 +8,27 @@ public class HamiltonianCycle {
 	private static int[][] adjacencyMatrix;
 
 	public void findHamiltonianCycle(int graphAdjacencyMatrix[][]) {
+		adjacencyMatrix = graphAdjacencyMatrix;
 		numOfVertices = adjacencyMatrix[0].length;
 		hamiltonianPath = new int[numOfVertices];
-		adjacencyMatrix = graphAdjacencyMatrix;
 		
 		hamiltonianPath[0] = 0;
 
 		if (findFeasibleSolution(1)) {
-			showHamiltonianPath();
+			printHamiltonianCycle();
 			
 		}else{
 			System.out.println("There is no Hamiltonian Cycle in the graph...");
 		}
 	}
 
-	boolean findFeasibleSolution(int position) {
+	boolean findFeasibleSolution(int nextVertex) {
 	
-		System.out.println("Checking Position "+position);
+		System.out.println("Checking Next Vertex "+nextVertex);
 		/* base case: If all vertices are included in Hamiltonian Cycle */
-		if (position == numOfVertices) {
+		if (nextVertex == numOfVertices) {
 			// Checking whether there is an edge from the last included vertex to the first vertex 
-			if (adjacencyMatrix[hamiltonianPath[position - 1]][hamiltonianPath[0]] == 1) {
+			if (adjacencyMatrix[hamiltonianPath[nextVertex - 1]][hamiltonianPath[0]] == 1) {
 				return true;
 			} else {
 				return false;
@@ -36,12 +36,12 @@ public class HamiltonianCycle {
 		}
 		
 		for (int vertexIndex = 1; vertexIndex < numOfVertices; ++vertexIndex) {
-			if (isFeasible(vertexIndex, position)) {
+			if (isFeasible(vertexIndex, nextVertex)) {
 
-				hamiltonianPath[position] = vertexIndex;
+				hamiltonianPath[nextVertex] = vertexIndex;
 				System.out.println("Added Vertex "+vertexIndex);
 
-				if (findFeasibleSolution(position + 1)) { 
+				if (findFeasibleSolution(nextVertex + 1)) { 
 					return true;
 				}
 				// !!! Backtrack
@@ -52,15 +52,15 @@ public class HamiltonianCycle {
 		return false;
 	}
 
-	boolean isFeasible(int vertex, int actualPosition) {
+	boolean isFeasible(int vertex, int nextVertex) {
 		// first criteria: whether the two nodes are connected?
-		if (adjacencyMatrix[hamiltonianPath[actualPosition - 1]][vertex] == 0){
+		if (adjacencyMatrix[hamiltonianPath[nextVertex - 1]][vertex] == 0){
 			System.out.println("___Vertex "+vertex+" is not connected___");
 			return false;
 			
 		}
 		//second criteria: whether we have already added this node to hamiltonian path?
-		for (int i = 0; i < actualPosition; ++i){
+		for (int i = 0; i < nextVertex; ++i){
 			if (hamiltonianPath[i] == vertex){
 				System.out.println("___Vertex "+vertex+" is already added to hamiltonian path___");
 				return false;
@@ -69,7 +69,7 @@ public class HamiltonianCycle {
 		return true;
 	}
 
-	public void showHamiltonianPath() {
+	public void printHamiltonianCycle() {
 		System.out.println("Hamiltonian cycle exists: ");
 		for (int i = 0; i < numOfVertices; ++i) {
 			System.out.print(hamiltonianPath[i] + " ");
