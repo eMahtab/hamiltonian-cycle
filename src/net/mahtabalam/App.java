@@ -31,7 +31,6 @@ class App {
         }; 
     
     public static void main(String args[]) {
-    	HamiltonianCycle hamiltonian = new HamiltonianCycle();
-        hamiltonian.findHamiltonianCycle(graph4);
+    	HamiltonianCycle.findHamiltonianCycle(graph4);
     }
 }
