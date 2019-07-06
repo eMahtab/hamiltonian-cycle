@@ -1,3 +1,3 @@
-# hamiltonian-cycle
+# Hamiltonian Cycle
 
 Hamiltonian Cycle Problem Implementation
